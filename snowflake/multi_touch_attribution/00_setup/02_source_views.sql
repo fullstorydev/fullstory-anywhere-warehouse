@@ -1,7 +1,7 @@
 -- =============================================================================
--- PHASE 1 — Setup: Raw Source Views (thin pass-through over FullStory tables)
+-- PHASE 1 — Setup: Raw Source Views (thin pass-through over Fullstory tables)
 -- =============================================================================
--- Decouples the rest of the pipeline from client-specific FullStory table names.
+-- Decouples the rest of the pipeline from client-specific Fullstory table names.
 --
 -- Variables are injected by the Makefile via snow sql -D flags:
 --   FS_DATABASE, FS_SCHEMA, FS_EVENTS_TABLE, FS_SOURCE_PROPS_TABLE,

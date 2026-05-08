@@ -1,5 +1,5 @@
 # =============================================================================
-# FullStory Marketing Attribution — Snowflake Native
+# Fullstory Marketing Attribution — Snowflake Native
 # =============================================================================
 # Prerequisites:
 #   1. snow CLI installed  (brew install snowflake-cli)

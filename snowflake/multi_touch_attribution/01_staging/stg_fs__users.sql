@@ -1,7 +1,7 @@
 -- =============================================================================
 -- STAGING: stg_fs__users
 -- =============================================================================
--- Maps FullStory device IDs to permanent user IDs.
+-- Maps Fullstory device IDs to permanent user IDs.
 -- Only includes sessions where the user has been identified (uid is not null).
 -- =============================================================================
 

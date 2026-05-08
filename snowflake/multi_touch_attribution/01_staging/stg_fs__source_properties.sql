@@ -13,7 +13,7 @@
 --   initial_referrer_full_url — full URL of the session's first referrer;
 --                              used in the intermediate layer for organic/referral
 --                              source classification. Sourced from the
---                              'initial_referrer_full_url' column in FullStory's
+--                              'initial_referrer_full_url' column in Fullstory's
 --                              source_properties table.
 --
 -- =============================================================================

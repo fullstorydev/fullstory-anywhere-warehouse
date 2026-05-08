@@ -1,4 +1,4 @@
-# FullStory Marketing Attribution — Snowflake Native
+# Fullstory Marketing Attribution — Snowflake Native
 
 A pure Snowflake-native implementation of multi-touch marketing attribution on top of Fullstory data exports. 
 
@@ -7,7 +7,7 @@ A pure Snowflake-native implementation of multi-touch marketing attribution on t
 ## Architecture
 
 ```
-FullStory Data Destination Tables
+Fullstory Data Destination Tables
 (raw events, users, custom_events, source_properties)
               │
               ▼
@@ -67,7 +67,7 @@ SELECT * FROM fs_marketing.config.attribution_config;
 | Column | Default | Description |
 |---|---|---|
 | `attribution_window_days` | `14` | Lookback window for session → conversion linking |
-| `conversion_event_name` | `'Checkout Success'` | FullStory custom event name that represents a conversion |
+| `conversion_event_name` | `'Checkout Success'` | Fullstory custom event name that represents a conversion |
 | `lookback_days` | 90 | Number of days of historical data to include on initialization |
 
 
@@ -78,7 +78,7 @@ snowflake/
 ├── README.md                          ← you are here
 ├── 00_setup/
 │   ├── 01_config_and_schema.sql       ← database, schemas, config table
-│   └── 02_source_views.sql            ← thin views over raw FullStory tables
+│   └── 02_source_views.sql            ← thin views over raw Fullstory tables
 ├── 01_staging/
 │   ├── stg_fs__events.sql
 │   ├── stg_fs__users.sql
@@ -101,7 +101,7 @@ snowflake/
 
 - Snowflake account with:
   - A virtual warehouse (XS or S is sufficient for dev)
-  - Access to your FullStory data destination tables
+  - Access to your Fullstory data destination tables
   - `SYSADMIN` or equivalent role for schema creation
 
 ### Connecting via PAT
