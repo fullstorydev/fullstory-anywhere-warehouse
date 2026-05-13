@@ -226,25 +226,25 @@ CREATE OR REPLACE SEMANTIC VIEW {{DEPLOY_DB}}.{{DEPLOY_SCHEMA}}.{{SV_NAME}}
         -- =====================================================================
         -- EVENTS (central fact)
         -- =====================================================================
-        EVENTS.ELEMENT_DEFINITION_ID AS ELEMENT_DEFINITION_ID
+        EVENTS.ELEMENT_DEFINITION_ID AS element_definition_id
             WITH SYNONYMS = ('element definition id', 'named element id')
             COMMENT = 'The id of the most specific Named Element matched as the target of the event.',
-        EVENTS.EVENT_DEFINITION_ID AS EVENT_DEFINITION_ID
+        EVENTS.EVENT_DEFINITION_ID AS event_definition_id
             WITH SYNONYMS = ('event definition id', 'defined event id')
             COMMENT = 'The id of the most specific Defined Event that matched this event.',
-        EVENTS.EVENT_TYPE AS EVENT_TYPE
+        EVENTS.EVENT_TYPE AS event_type
             WITH SYNONYMS = ('event category', 'type of event')
             COMMENT = 'The type of the event (click, page_view, navigate, change, load, etc.).',
-        EVENTS.ID AS ID
+        EVENTS.ID AS id
             WITH SYNONYMS = ('event id', 'event identifier')
             COMMENT = 'A unique identifier for each event.',
-        EVENTS.SESSION_ID AS SESSION_ID
+        EVENTS.SESSION_ID AS session_id
             WITH SYNONYMS = ('session id', 'session identifier')
             COMMENT = 'A unique id corresponding to a single session.',
-        EVENTS.USER_ID AS USER_ID
+        EVENTS.USER_ID AS user_id
             WITH SYNONYMS = ('user id', 'user identifier')
             COMMENT = 'A unique id assigned to the user by Fullstory.',
-        EVENTS.EVENT_TIME AS EVENT_TIME
+        EVENTS.EVENT_TIME AS event_time
             WITH SYNONYMS = ('event timestamp', 'time of event')
             COMMENT = 'The timestamp when the event occurred, per device clock.',
 
@@ -372,13 +372,13 @@ CREATE OR REPLACE SEMANTIC VIEW {{DEPLOY_DB}}.{{DEPLOY_SCHEMA}}.{{SV_NAME}}
         -- =====================================================================
         INTERACTION_TO_NEXT_PAINTS.EVENT_ID AS event_id
             COMMENT = 'Foreign key referencing the events fact table.',
-        INTERACTION_TO_NEXT_PAINTS.EVENT_NAME AS inp_event_name
+        INTERACTION_TO_NEXT_PAINTS.EVENT_NAME AS event_name
             WITH SYNONYMS = ('inp trigger', 'interaction type')
             COMMENT = 'The browser event that triggered INP measurement (e.g. keydown, mouseover).',
-        INTERACTION_TO_NEXT_PAINTS.TARGET_TEXT AS inp_target_text
+        INTERACTION_TO_NEXT_PAINTS.TARGET_TEXT AS target_text
             WITH SYNONYMS = ('inp element text')
             COMMENT = 'The visible text of the element that triggered the INP interaction.',
-        INTERACTION_TO_NEXT_PAINTS.TARGET_RAW_SELECTOR AS inp_target_selector
+        INTERACTION_TO_NEXT_PAINTS.TARGET_RAW_SELECTOR AS target_raw_selector
             WITH SYNONYMS = ('inp element selector')
             COMMENT = 'The CSS selector of the element that triggered the INP interaction.',
         INTERACTION_TO_NEXT_PAINTS.SESSION_ID AS session_id
@@ -421,7 +421,7 @@ CREATE OR REPLACE SEMANTIC VIEW {{DEPLOY_DB}}.{{DEPLOY_SCHEMA}}.{{SV_NAME}}
         CONSOLE_MESSAGES.CONSOLE_MESSAGE_LEVEL AS console_message_level
             WITH SYNONYMS = ('log level', 'console level')
             COMMENT = 'The severity level of the console message (e.g. error).',
-        CONSOLE_MESSAGES.MESSAGE AS console_message
+        CONSOLE_MESSAGES.MESSAGE AS message
             WITH SYNONYMS = ('console error text', 'console log text')
             COMMENT = 'The text content of the console message.',
         CONSOLE_MESSAGES.SESSION_ID AS session_id
@@ -451,10 +451,10 @@ CREATE OR REPLACE SEMANTIC VIEW {{DEPLOY_DB}}.{{DEPLOY_SCHEMA}}.{{SV_NAME}}
         -- =====================================================================
         FORM_ABANDONS.EVENT_ID AS event_id
             COMMENT = 'Foreign key referencing the events fact table.',
-        FORM_ABANDONS.TARGET_RAW_SELECTOR AS form_abandon_selector
+        FORM_ABANDONS.TARGET_RAW_SELECTOR AS target_raw_selector
             WITH SYNONYMS = ('form field selector', 'abandoned field selector')
             COMMENT = 'The CSS selector path to the form field that was abandoned.',
-        FORM_ABANDONS.TARGET_TEXT AS form_abandon_target_text
+        FORM_ABANDONS.TARGET_TEXT AS target_text
             WITH SYNONYMS = ('abandoned field text')
             COMMENT = 'The text of the form element that was abandoned.',
         FORM_ABANDONS.SESSION_ID AS session_id
@@ -469,7 +469,7 @@ CREATE OR REPLACE SEMANTIC VIEW {{DEPLOY_DB}}.{{DEPLOY_SCHEMA}}.{{SV_NAME}}
         -- =====================================================================
         FORM_INPUT_CHANGES.EVENT_ID AS event_id
             COMMENT = 'Foreign key referencing the events fact table.',
-        FORM_INPUT_CHANGES.TARGET_RAW_SELECTOR AS form_input_selector
+        FORM_INPUT_CHANGES.TARGET_RAW_SELECTOR AS target_raw_selector
             WITH SYNONYMS = ('input field selector')
             COMMENT = 'The CSS selector path to the form input that changed.',
         FORM_INPUT_CHANGES.SESSION_ID AS session_id
@@ -502,10 +502,10 @@ CREATE OR REPLACE SEMANTIC VIEW {{DEPLOY_DB}}.{{DEPLOY_SCHEMA}}.{{SV_NAME}}
         ELEMENTS_SEEN.ELEMENT_START_TYPE AS element_start_type
             WITH SYNONYMS = ('element state', 'element visibility state')
             COMMENT = 'The state when the element was observed: rendered, visible, or end.',
-        ELEMENTS_SEEN.TARGET_TEXT AS elements_seen_target_text
+        ELEMENTS_SEEN.TARGET_TEXT AS target_text
             WITH SYNONYMS = ('watched element text')
             COMMENT = 'The visible text of the watched element.',
-        ELEMENTS_SEEN.TARGET_RAW_SELECTOR AS elements_seen_selector
+        ELEMENTS_SEEN.TARGET_RAW_SELECTOR AS target_raw_selector
             WITH SYNONYMS = ('watched element selector')
             COMMENT = 'The CSS selector path to the watched element.',
         ELEMENTS_SEEN.SESSION_ID AS session_id
@@ -634,7 +634,7 @@ CREATE OR REPLACE SEMANTIC VIEW {{DEPLOY_DB}}.{{DEPLOY_SCHEMA}}.{{SV_NAME}}
             COMMENT = 'Foreign key referencing the events fact table.',
 
         -- Page and URL context
-        SOURCE_PROPERTIES.TITLE AS page_title  -- column is null in this dataset
+        SOURCE_PROPERTIES.TITLE AS title  -- column is null in this dataset
             WITH SYNONYMS = ('html title', 'document title')
             COMMENT = 'The HTML page title at the time of the event.',
         SOURCE_PROPERTIES.URL_FULL_URL AS url_full_url
@@ -757,42 +757,42 @@ CREATE OR REPLACE SEMANTIC VIEW {{DEPLOY_DB}}.{{DEPLOY_SCHEMA}}.{{SV_NAME}}
         -- =====================================================================
         -- PAGE_DEFINITIONS 
         -- =====================================================================
-        PAGE_DEFINITIONS.ID AS page_definition_lookup_id
+        PAGE_DEFINITIONS.ID AS id
             COMMENT = 'Unique identifier for the Named Page definition.',
-        PAGE_DEFINITIONS.NAME AS page_definition_name
+        PAGE_DEFINITIONS.NAME AS name
             WITH SYNONYMS = ('named page', 'page definition name', 'defined page name')
             COMMENT = 'The customer-defined name for this page.',
-        PAGE_DEFINITIONS.DESCRIPTION AS page_definition_description
+        PAGE_DEFINITIONS.DESCRIPTION AS description
             COMMENT = 'A description of the Named Page.',
-        PAGE_DEFINITIONS.STATE AS page_definition_state
+        PAGE_DEFINITIONS.STATE AS state
             WITH SYNONYMS = ('page definition status')
             COMMENT = 'Whether the page definition is active or inactive.',
 
         -- =====================================================================
         -- ELEMENT_DEFINITIONS 
         -- =====================================================================
-        ELEMENT_DEFINITIONS.ID AS element_definition_lookup_id
+        ELEMENT_DEFINITIONS.ID AS id
             COMMENT = 'Unique identifier for the Named Element definition.',
-        ELEMENT_DEFINITIONS.NAME AS element_definition_name
+        ELEMENT_DEFINITIONS.NAME AS name
             WITH SYNONYMS = ('named element', 'element definition name', 'defined element name')
             COMMENT = 'The customer-defined name for this element.',
-        ELEMENT_DEFINITIONS.DESCRIPTION AS element_definition_description
+        ELEMENT_DEFINITIONS.DESCRIPTION AS description
             COMMENT = 'A description of the Named Element.',
-        ELEMENT_DEFINITIONS.STATE AS element_definition_state
+        ELEMENT_DEFINITIONS.STATE AS state
             WITH SYNONYMS = ('element definition status')
             COMMENT = 'Whether the element definition is active or inactive.',
 
         -- =====================================================================
         -- EVENT_DEFINITIONS 
         -- =====================================================================
-        EVENT_DEFINITIONS.ID AS event_definition_lookup_id
+        EVENT_DEFINITIONS.ID AS id
             COMMENT = 'Unique identifier for the Defined Event.',
-        EVENT_DEFINITIONS.NAME AS event_definition_name
+        EVENT_DEFINITIONS.NAME AS name
             WITH SYNONYMS = ('defined event', 'event definition name', 'named event')
             COMMENT = 'The customer-defined name for this event definition.',
-        EVENT_DEFINITIONS.DESCRIPTION AS event_definition_description
+        EVENT_DEFINITIONS.DESCRIPTION AS description
             COMMENT = 'A description of the Defined Event.',
-        EVENT_DEFINITIONS.STATE AS event_definition_state
+        EVENT_DEFINITIONS.STATE AS state
             WITH SYNONYMS = ('event definition status')
             COMMENT = 'Whether the event definition is active or inactive.',
 
