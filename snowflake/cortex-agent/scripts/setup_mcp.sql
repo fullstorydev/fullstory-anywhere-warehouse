@@ -23,18 +23,18 @@
 -- CONFIGURATION — UPDATE THESE VALUES
 -- =============================================================================
 
-SET deploy_database   = 'FULLSTORY_CORTEX';
-SET deploy_schema     = 'SEMANTIC_LAYER';
-SET deploy_warehouse  = 'COMPUTE_WH';
-SET agent_name        = 'FULLSTORY_AGENT';
-SET mcp_server_name   = 'FULLSTORY_MCP';
-SET mcp_role_name     = 'MCP_ANALYST';         -- least-privilege role for MCP clients
-SET oauth_integration = 'FULLSTORY_MCP_OAUTH'; -- security integration name (must be uppercase)
+SET deploy_database   = '{{DEPLOY_DB}}';
+SET deploy_schema     = '{{DEPLOY_SCHEMA}}';
+SET deploy_warehouse  = '{{DEPLOY_WAREHOUSE}}';
+SET agent_name        = '{{AGENT_NAME}}';
+SET mcp_server_name   = '{{MCP_SERVER_NAME}}';
+SET mcp_role_name     = '{{MCP_ROLE_NAME}}';         -- least-privilege role for MCP clients
+SET oauth_integration = '{{OAUTH_INTEGRATION}}'; -- security integration name (must be uppercase)
 
-SET schema_full_name       = $deploy_database || '.' || $deploy_schema;
-SET agent_full_name        = $deploy_database || '.' || $deploy_schema || '.' || $agent_name;
-SET mcp_full_name          = $deploy_database || '.' || $deploy_schema || '.' || $mcp_server_name;
-SET semantic_view_full_name = $deploy_database || '.' || $deploy_schema || '.FULLSTORY_ANALYTICS';
+SET schema_full_name        = $deploy_database || '.' || $deploy_schema;
+SET agent_full_name         = $deploy_database || '.' || $deploy_schema || '.' || $agent_name;
+SET mcp_full_name           = $deploy_database || '.' || $deploy_schema || '.' || $mcp_server_name;
+SET semantic_view_full_name = $deploy_database || '.' || $deploy_schema || '.{{SV_NAME}}';
 SET account_url            = CURRENT_ORGANIZATION_NAME() || '-' || CURRENT_ACCOUNT_NAME() || '.snowflakecomputing.com';
 
 -- =============================================================================

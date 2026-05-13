@@ -6,12 +6,27 @@ FULLSTORY_DB  ?= FULLSTORY_READY_TO_ANALYZE
 FULLSTORY_SCH ?= FULLSTORY_DEMO_DATA
 
 # ---- Deployment targets (can leave as defaults) ----
-DEPLOY_DB     ?= FULLSTORY_CORTEX
-DEPLOY_SCHEMA ?= SEMANTIC_LAYER
-SV_NAME       ?= FULLSTORY_SEMANTIC
-AGENT_NAME    ?= FULLSTORY_AGENT
+DEPLOY_DB         ?= FS_CORTEX_DB
+DEPLOY_SCHEMA     ?= SEMANTIC_TEST
+DEPLOY_WAREHOUSE  ?= COMPUTE_WH
+SV_NAME           ?= FS_SEMANTIC
+AGENT_NAME        ?= FS_AGENT
+MCP_SERVER_NAME   ?= FS_MCP_SERVER
+MCP_ROLE_NAME     ?= FS_ANALYST
+OAUTH_INTEGRATION ?= FS_MCP_OAUTH
 
-SV_SQL_TMP    := /tmp/create_semantic_view_sub.sql
+# Shared sed substitutions for all deployment scripts
+define SUB
+	sed \
+		-e 's/{{DEPLOY_DB}}/$(DEPLOY_DB)/g' \
+		-e 's/{{DEPLOY_SCHEMA}}/$(DEPLOY_SCHEMA)/g' \
+		-e 's/{{DEPLOY_WAREHOUSE}}/$(DEPLOY_WAREHOUSE)/g' \
+		-e 's/{{SV_NAME}}/$(SV_NAME)/g' \
+		-e 's/{{AGENT_NAME}}/$(AGENT_NAME)/g' \
+		-e 's/{{MCP_SERVER_NAME}}/$(MCP_SERVER_NAME)/g' \
+		-e 's/{{MCP_ROLE_NAME}}/$(MCP_ROLE_NAME)/g' \
+		-e 's/{{OAUTH_INTEGRATION}}/$(OAUTH_INTEGRATION)/g'
+endef
 
 .PHONY: help deploy _create-semantic-view validate teardown mcp gen-mcp-config
 
@@ -32,7 +47,7 @@ help:
 
 # Full deploy: create semantic view then create agent
 deploy: _create-semantic-view
-	$(SNOW) sql -f scripts/setup.sql --connection $(CONNECTION)
+	$(SUB) scripts/setup.sql | $(SNOW) sql -f /dev/stdin --connection $(CONNECTION)
 
 # Substitute placeholders in create_semantic_view.sql and run it
 _create-semantic-view:
@@ -43,18 +58,16 @@ _create-semantic-view:
 		-e 's/{{DEPLOY_DB}}/$(DEPLOY_DB)/g' \
 		-e 's/{{DEPLOY_SCHEMA}}/$(DEPLOY_SCHEMA)/g' \
 		-e 's/{{SV_NAME}}/$(SV_NAME)/g' \
-		scripts/create_semantic_view.sql > $(SV_SQL_TMP)
-	@echo "Creating semantic view in $(DEPLOY_DB).$(DEPLOY_SCHEMA)..."
-	$(SNOW) sql -f $(SV_SQL_TMP) --connection $(CONNECTION)
+		scripts/create_semantic_view.sql | $(SNOW) sql -f /dev/stdin --connection $(CONNECTION)
 
 validate:
-	$(SNOW) sql -f scripts/validate.sql --connection $(CONNECTION)
+	$(SUB) scripts/validate.sql | $(SNOW) sql -f /dev/stdin --connection $(CONNECTION)
 
 teardown:
-	$(SNOW) sql -f scripts/teardown.sql --connection $(CONNECTION)
+	$(SUB) scripts/teardown.sql | $(SNOW) sql -f /dev/stdin --connection $(CONNECTION)
 
 mcp:
-	$(SNOW) sql -f scripts/setup_mcp.sql --connection $(CONNECTION)
+	$(SUB) scripts/setup_mcp.sql | $(SNOW) sql -f /dev/stdin --connection $(CONNECTION)
 
 # Generate .mcp.json from .mcp.json.example by substituting MCP_URL and SNOWFLAKE_PAT.
 # Usage: make gen-mcp-config MCP_URL=https://... SNOWFLAKE_PAT=<your-pat>

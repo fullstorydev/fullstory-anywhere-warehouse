@@ -16,13 +16,13 @@
 -- =============================================================================
 
 -- Where the Semantic View and Agent will live
-SET deploy_database    = 'FULLSTORY_CORTEX';
-SET deploy_schema      = 'SEMANTIC_LAYER';
-SET deploy_warehouse   = 'COMPUTE_WH';
+SET deploy_database    = '{{DEPLOY_DB}}';
+SET deploy_schema      = '{{DEPLOY_SCHEMA}}';
+SET deploy_warehouse   = '{{DEPLOY_WAREHOUSE}}';
 
 -- Names for the Semantic View and Agent
-SET semantic_view_name = 'FULLSTORY_SEMANTIC';
-SET agent_name         = 'FULLSTORY_AGENT';
+SET semantic_view_name = '{{SV_NAME}}';
+SET agent_name         = '{{AGENT_NAME}}';
 
 SET full_view_path  = $deploy_database || '.' || $deploy_schema || '.' || $semantic_view_name;
 SET agent_full_name = $deploy_database || '.' || $deploy_schema || '.' || $agent_name;
