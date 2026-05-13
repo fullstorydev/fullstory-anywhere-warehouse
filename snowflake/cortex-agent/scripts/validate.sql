@@ -9,10 +9,10 @@
 --
 -- =============================================================================
 
-SET deploy_database    = 'FULLSTORY_ANALYTICS';
-SET deploy_schema      = 'SEMANTIC_LAYER';
-SET semantic_view_name = 'FULLSTORY_ANALYTICS';
-SET agent_name         = 'FULLSTORY_AGENT';
+SET deploy_database    = '{{DEPLOY_DB}}';
+SET deploy_schema      = '{{DEPLOY_SCHEMA}}';
+SET semantic_view_name = '{{SV_NAME}}';
+SET agent_name         = '{{AGENT_NAME}}';
 
 SET full_view_path  = $deploy_database || '.' || $deploy_schema || '.' || $semantic_view_name;
 SET full_agent_path = $deploy_database || '.' || $deploy_schema || '.' || $agent_name;
@@ -33,14 +33,14 @@ DESCRIBE SEMANTIC VIEW IDENTIFIER($full_view_path);
 -- =============================================================================
 
 SELECT '--- CHECK 2: Cortex Agent ---' AS check_name;
-SHOW AGENTS IN SCHEMA FULLSTORY_ANALYTICS.SEMANTIC_LAYER;
+SHOW AGENTS IN SCHEMA IDENTIFIER($deploy_database || '.' || $deploy_schema);
 
 -- =============================================================================
 -- CHECK 3: MCP Server exists
 -- =============================================================================
 
 SELECT '--- CHECK 3: MCP Server ---' AS check_name;
-SHOW MCP SERVERS IN SCHEMA FULLSTORY_ANALYTICS.SEMANTIC_LAYER;
+SHOW MCP SERVERS IN SCHEMA IDENTIFIER($deploy_database || '.' || $deploy_schema);
 
 -- =============================================================================
 -- CHECK 4: Verify semantic view DDL is intact

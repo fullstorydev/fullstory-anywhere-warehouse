@@ -11,11 +11,11 @@
 -- default. Set DROP_DATABASE = TRUE below to also remove them.
 -- =============================================================================
 
-SET deploy_database    = 'FULLSTORY_ANALYTICS';
-SET deploy_schema      = 'SEMANTIC_LAYER';
-SET semantic_view_name = 'FULLSTORY_ANALYTICS';
-SET agent_name         = 'FULLSTORY_AGENT';
-SET mcp_server_name    = 'FULLSTORY_MCP';
+SET deploy_database    = '{{DEPLOY_DB}}';
+SET deploy_schema      = '{{DEPLOY_SCHEMA}}';
+SET semantic_view_name = '{{SV_NAME}}';
+SET agent_name         = '{{AGENT_NAME}}';
+SET mcp_server_name    = '{{MCP_SERVER_NAME}}';
 
 -- Set to TRUE to also drop the database (removes everything)
 SET drop_database = TRUE;
