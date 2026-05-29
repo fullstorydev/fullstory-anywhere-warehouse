@@ -28,7 +28,7 @@ with user_session as (
   
 select
   count(distinct coalesce(uid, user_id)) as cnt_users
-from user_session 
+from user_session; 
 
 -- If you have any ids stored in user properties you can get parity between warehouse and what you see in the fullstory UI
 select
