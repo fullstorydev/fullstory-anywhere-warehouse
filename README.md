@@ -6,6 +6,7 @@ Practical, scenario-driven guides for building with Fullstory Anywhere: Warehous
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | [Automate Marketing Attribution with Dynamic Tables](./snowflake/multi_touch_attribution/)<br>Use declarative SQL to transform events to make data infromed marketing decisions          | Snowflake     |
 | [Build a Cortex Agent and MCP interface on Fullstory Behavioral Data](./snowflake/cortex-agent/)<br>Ask Natrual Language questions about your behaviroral data. | Snowflake     |
+| [Starter Queries](./bigquery/starter-queries/)<br>Foundational SQL queries for exploring Fullstory data in BigQuery, including UI-parity metrics. | BigQuery |
 
 
 ## Official Docs
