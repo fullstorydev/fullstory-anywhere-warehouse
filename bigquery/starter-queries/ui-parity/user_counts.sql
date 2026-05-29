@@ -21,7 +21,7 @@ with user_session as (
     max(e.user_id) as user_id,
     max(u.uid) as uid
   from `<project_id>.<dataset>.events` e 
-  join `<project_id>.<dataset>.users`` u on e.user_id = u.id 
+  join `<project_id>.<dataset>.users` u on e.user_id = u.id 
   where date(event_time, 'America/Denver') = '2026-05-27'
   group by session_id  
   )
