@@ -2,12 +2,28 @@
 
 These queries reproduce metrics from the Fullstory UI using raw warehouse data. The goal is to establish a baseline and build confidence that your warehouse data aligns with what you see in the product before building more complex analyses.
 
+## Configuration
+
+Replace `<project-id>.<dataset>` with your BigQuery project and dataset in each query.
+
+Example: `my-project.fullstory_data`
+
+To replace: **Cmd+H** (Mac) or **Ctrl+H** (Windows/Linux) → find `<project-id>.<dataset>` → replace with your value.
+
 ## Queries
+
+### Metrics
 
 | File | Description | UI Metric|
 |------|--------------| -------------|
-| `sessions_by_page.sql` | Sessions count filtered by page definition | Unique Sessions |
-| `user_counts.sql` | Explains the multiple ways to count users and difference in UI | Unique Users & Unique Property|
+| `metrics/sessions_by_page.sql` | Sessions count filtered by page definition | Unique Sessions |
+| `metrics/user_counts.sql` | Explains the multiple ways to count users and difference in UI | Unique Users & Unique Property|
+
+### Funnels
+
+| File | Description | UI Metric |
+|------|-------------|-----------|
+| `funnels/purchase_funnel.sql` | Ordered session conversion across a multi-step purchase funnel | Funnel |
 
 ## Key Gotchas
 
