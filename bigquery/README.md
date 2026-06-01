@@ -7,7 +7,9 @@ SQL queries for working with Fullstory data exported to BigQuery.
 ```
 bigquery/
   starter-queries/
-    ui-parity/    # Queries that replicate Fullstory UI metrics in the warehouse
+    ui-parity/          # Queries that replicate Fullstory UI metrics in the warehouse
+      metrics/          # Point-in-time counts and session metrics
+      funnels/          # Ordered conversion funnel queries
 ```
 
 ## Getting Started
@@ -15,7 +17,7 @@ bigquery/
 All queries use the placeholder `<project_id>.<dataset>` for your BigQuery project and dataset.
 Replace this with your actual values before running (e.g. `my-project.fullstory_data`).
 
-**Quick replace:** `Cmd+H` (Mac) or `Ctrl+H` (Windows/Linux) in your editor.
+**Quick replace:** `Cmd+H` (Mac) or `Ctrl+H` (Windows/Linux) in your editor, or `:%s/<project_id>.<dataset>/my-project.fullstory_data/g` in vim/vi.
 
 ## Sections
 
@@ -23,3 +25,5 @@ Replace this with your actual values before running (e.g. `my-project.fullstory_
 Foundational queries to help you get familiar with the Fullstory data model and build confidence in your warehouse metrics.
 
 - **`ui-parity/`** — Queries that match (or explain the differences from) what you see in the Fullstory UI
+  - **`metrics/`** — Point-in-time counts and session metrics (`sessions_by_page.sql`, `user_counts.sql`)
+  - **`funnels/`** — Ordered conversion funnel queries (`purchase_funnel.sql`)
