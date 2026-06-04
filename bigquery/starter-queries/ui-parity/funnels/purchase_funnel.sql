@@ -1,6 +1,6 @@
--- CONFIGURATION: Replace fs-demo-eng.fs_cargo_demo with your BigQuery project and dataset
+-- CONFIGURATION: Replace <project-id>.<dataset> with your BigQuery project and dataset
 -- Example: my-project.fullstory_data
--- To replace: Cmd+H (Mac) or Ctrl+H (Windows/Linux) → find `fs-demo-eng.fs_cargo_demo` → replace with your value
+-- To replace: Cmd+H (Mac) or Ctrl+H (Windows/Linux) → find `<project-id>.<dataset>` → replace with your value
 
 -- Purchase Funnel (5 steps)
 --
@@ -10,10 +10,7 @@
 -- Step 4: Checkout Review              (page_definitions)
 -- Step 5: Checkout Success             (custom_events)
 --
--- Single scan per join path via UNION ALL, then one aggregation pass.
--- Funnel is ordered: each step must occur after the previous one in the same session.
--- To add steps, extend the CASE in the first branch (page steps) or add a new UNION ALL branch.
-
+-- Note: page names and custom events are configured uniquely for each org these are just used for an example purchase funnel please replace with your org specific configuration
 with funnel_events as (
 
   -- Steps 1–4: page-based, joined through source_properties → page_definitions
@@ -27,9 +24,9 @@ with funnel_events as (
       when pd.name = 'Checkout Payment'         then 3
       when pd.name = 'Checkout Review'          then 4
     end as funnel_step
-  from `fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_events` e
-  join `fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_source_properties` sp on e.id = sp.event_id
-  join `fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_page_definitions` pd   on sp.page_definition_id = pd.id
+  from `<project-id>.<dataset>.events` e
+  join `<project-id>.<dataset>.source_properties` sp on e.id = sp.event_id
+  join `<project-id>.<dataset>.page_definitions` pd   on sp.page_definition_id = pd.id
   where date(e.event_time, 'America/Denver') = '2026-05-31'
     and pd.name in ('ProductPage', 'Search', 'Checkout Billing', 'Checkout Payment', 'Checkout Review')
 
@@ -41,8 +38,8 @@ with funnel_events as (
     e.session_id,
     e.event_time,
     5 as funnel_step
-  from `fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_events` e
-  join `fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_custom_events` ce on e.id = ce.event_id
+  from `<project-id>.<dataset>.events` e
+  join `<project-id>.<dataset>.custom_events` ce on e.id = ce.event_id
   where date(e.event_time, 'America/Denver') = '2026-05-31'
     and ce.event_name = 'Checkout Success'
 
@@ -123,9 +120,9 @@ from funnel_sessions;
 --     e.user_id,
 --     e.session_id,
 --     min(e.event_time) as stp1_time
---   from fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_events e
---   join fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_source_properties sp on e.id = sp.event_id
---   join fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_page_definitions pd   on sp.page_definition_id = pd.id
+--   from <project-id>.<dataset>.events e
+--   join <project-id>.<dataset>.source_properties sp on e.id = sp.event_id
+--   join <project-id>.<dataset>.page_definitions pd   on sp.page_definition_id = pd.id
 --   where date(e.event_time, 'America/Denver') = '2026-05-31'
 --     and pd.name in ('ProductPage', 'Search')
 --   group by e.user_id, e.session_id
@@ -136,9 +133,9 @@ from funnel_sessions;
 --     e.user_id,
 --     e.session_id,
 --     min(e.event_time) as stp2_time
---   from fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_events e
---   join fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_source_properties sp on e.id = sp.event_id
---   join fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_page_definitions pd   on sp.page_definition_id = pd.id
+--   from <project-id>.<dataset>.events e
+--   join <project-id>.<dataset>.source_properties sp on e.id = sp.event_id
+--   join <project-id>.<dataset>.page_definitions pd   on sp.page_definition_id = pd.id
 --   where date(e.event_time, 'America/Denver') = '2026-05-31'
 --     and pd.name = 'Checkout Billing'
 --     and e.session_id in (select session_id from stp1_pdp_search where stp1_time < e.event_time)
@@ -150,9 +147,9 @@ from funnel_sessions;
 --     e.user_id,
 --     e.session_id,
 --     min(e.event_time) as stp3_time
---   from fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_events e
---   join fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_source_properties sp on e.id = sp.event_id
---   join fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_page_definitions pd   on sp.page_definition_id = pd.id
+--   from <project-id>.<dataset>.events e
+--   join <project-id>.<dataset>.source_properties sp on e.id = sp.event_id
+--   join <project-id>.<dataset>.page_definitions pd   on sp.page_definition_id = pd.id
 --   where date(e.event_time, 'America/Denver') = '2026-05-31'
 --     and pd.name = 'Checkout Payment'
 --     and e.session_id in (select session_id from stp2_checkout_billing where stp2_time < e.event_time)
@@ -164,9 +161,9 @@ from funnel_sessions;
 --     e.user_id,
 --     e.session_id,
 --     min(e.event_time) as stp4_time
---   from fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_events e
---   join fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_source_properties sp on e.id = sp.event_id
---   join fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_page_definitions pd   on sp.page_definition_id = pd.id
+--   from <project-id>.<dataset>.events e
+--   join <project-id>.<dataset>.source_properties sp on e.id = sp.event_id
+--   join <project-id>.<dataset>.page_definitions pd   on sp.page_definition_id = pd.id
 --   where date(e.event_time, 'America/Denver') = '2026-05-31'
 --     and pd.name = 'Checkout Review'
 --     and e.session_id in (select session_id from stp3_checkout_payment where stp3_time < e.event_time)
@@ -178,8 +175,8 @@ from funnel_sessions;
 --     e.user_id,
 --     e.session_id,
 --     min(e.event_time) as stp5_time
---   from fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_events e
---   join fs-demo-eng.fs_cargo_demo.agnes_test_18pnwr_custom_events ce on e.id = ce.event_id
+--   from <project-id>.<dataset>.events e
+--   join <project-id>.<dataset>.custom_events ce on e.id = ce.event_id
 --   where date(e.event_time, 'America/Denver') = '2026-05-31'
 --     and ce.event_name = 'Checkout Success'
 --     and e.session_id in (select session_id from stp4_checkout_review where stp4_time < e.event_time)
