@@ -56,16 +56,26 @@ warehouse = "COMPUTE_WH"
 
 ### 3. Configure Your Settings
 
-Edit the variables at the top of `scripts/setup.sql` and the Makefile:
+Edit the variables at the Makefile:
 
-```sql
--- Your Fullstory data location (Makefile)
-SET FULLSTORY_DB = 'YOUR_FULLSTORY_DATABASE';
-SET FULLSTORY_SCH = 'YOUR_FULLSTORY_SCHEMA';
+```
+SNOW          := snow
+CONNECTION    ?= snowflake
 
--- Where to deploy (can leave as defaults)
-SET deploy_database = 'FULLSTORY_CORTEX';
-SET deploy_schema = 'SEMANTIC_LAYER';
+# ---- Fullstory source data (CHANGE THESE to match your Snowflake account) ----
+FULLSTORY_DB  ?= FULLSTORY_READY_TO_ANALYZE
+FULLSTORY_SCH ?= FULLSTORY_DEMO_DATA
+
+# ---- Deployment targets (can leave as defaults) ----
+DEPLOY_DB         ?= FS_CORTEX_DB
+DEPLOY_SCHEMA     ?= SEMANTIC_TEST
+DEPLOY_WAREHOUSE  ?= COMPUTE_WH
+SV_NAME           ?= FS_SEMANTIC
+AGENT_NAME        ?= FS_AGENT
+MCP_SERVER_NAME   ?= FS_MCP_SERVER
+MCP_ROLE_NAME     ?= FS_ANALYST
+OAUTH_INTEGRATION ?= FS_MCP_OAUTH
+```
 ```
 
 ### 4. Validate
