@@ -56,7 +56,7 @@ warehouse = "COMPUTE_WH"
 
 ### 3. Configure Your Settings
 
-Edit the variables at the Makefile:
+Edit the variables in the Makefile:
 
 ```
 SNOW          := snow
@@ -75,7 +75,6 @@ AGENT_NAME        ?= FS_AGENT
 MCP_SERVER_NAME   ?= FS_MCP_SERVER
 MCP_ROLE_NAME     ?= FS_ANALYST
 OAUTH_INTEGRATION ?= FS_MCP_OAUTH
-```
 ```
 
 ### 4. Validate
