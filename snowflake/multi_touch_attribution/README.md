@@ -49,7 +49,7 @@ Fullstory Data Destination Tables
 │  Models: First Touch · Last Touch · Linear          │
 │          40-20-40 U-Shaped · Full Credit            │
 │                                                     │
-│  target_lag = '3 days'  (leaf node — sets the pace) │
+│  target_lag = '1 hour'  (leaf node — sets the pace) │
 └─────────────────────────────────────────────────────┘
 
 ```

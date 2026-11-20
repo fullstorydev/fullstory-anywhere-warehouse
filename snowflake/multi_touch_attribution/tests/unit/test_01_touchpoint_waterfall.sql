@@ -63,7 +63,7 @@ classified AS (
             CASE WHEN gclid  IS NOT NULL THEN 'google'   END,
             CASE WHEN fbclid IS NOT NULL THEN 'facebook' END,
             utm_source,
-            referrer_domain,
+            NULLIF(referrer_domain, ''),
             'direct'
         ) AS actual_source,
 

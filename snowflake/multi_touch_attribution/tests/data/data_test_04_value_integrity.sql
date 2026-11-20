@@ -10,8 +10,8 @@
 --   3. total_sessions_for_conversion >= 1
 --   4. medium is never NULL (waterfall always resolves to 'direct' as fallback)
 --   5. source is never NULL
---   6. is_conversion_session is true for exactly one session per
---      (user_id, converted_at, attribution_model, conversion_index)
+--   6. is_conversion_session agrees with session position
+--      (TRUE iff session_number = total_sessions_for_conversion)
 --
 -- Touchpoints (int_marketing__touchpoints):
 --   7. medium only contains expected values (known waterfall outputs or UTM values)

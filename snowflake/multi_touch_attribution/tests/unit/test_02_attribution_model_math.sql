@@ -96,14 +96,14 @@ session_meta AS (
 
 calculated_weights AS (
     SELECT *,
-        DIV0(1.0, total_sessions_for_conversion) * conversion_revenue                        AS linear_revenue,
+        DIV0(conversion_revenue, total_sessions_for_conversion)                         AS linear_revenue,
         CASE WHEN session_number = 1                              THEN conversion_revenue ELSE 0.0 END AS first_touch_revenue,
         CASE WHEN session_number = total_sessions_for_conversion  THEN conversion_revenue ELSE 0.0 END AS last_touch_revenue,
         CASE
             WHEN total_sessions_for_conversion = 1 THEN 1.0 * conversion_revenue
             WHEN total_sessions_for_conversion = 2 THEN 0.5 * conversion_revenue
             WHEN session_number = 1 OR session_number = total_sessions_for_conversion THEN 0.4 * conversion_revenue
-            ELSE DIV0(0.2, (total_sessions_for_conversion - 2)) * conversion_revenue
+            ELSE DIV0(0.2 * conversion_revenue, (total_sessions_for_conversion - 2))
         END AS ushaped_revenue
     FROM session_meta
 ),
@@ -162,8 +162,8 @@ assert_last_touch AS (
 ),
 
 -- 4. Linear: each session gets approximately 1/N of revenue (within $0.01)
--- DIV0(1.0, N) * revenue and revenue/N can differ by tiny float amounts — only
--- flag if the per-session difference exceeds $0.01 (a real logic error).
+-- Tolerance absorbs NUMBER scale differences — only flag if the per-session
+-- difference exceeds $0.01 (a real logic error).
 
 assert_linear AS (
     SELECT s.user_id,
