@@ -39,12 +39,11 @@ path_stats AS (
     SELECT
         user_id,
         converted_at,
-        conversion_index,
         MIN(session_number)                AS min_session_num,
         MAX(session_number)                AS max_session_num,
         MAX(total_sessions_for_conversion) AS declared_total
     FROM linear_only
-    GROUP BY 1, 2, 3
+    GROUP BY 1, 2
 ),
 
 -- 2. session_number must start at 1

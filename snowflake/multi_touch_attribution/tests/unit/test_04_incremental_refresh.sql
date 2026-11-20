@@ -82,7 +82,7 @@ calculated_weights AS (
         CASE WHEN session_number = total_sessions_for_conversion THEN TRUE ELSE FALSE END AS is_conversion_session,
 
         -- Linear: even split
-        DIV0(1.0, total_sessions_for_conversion) * conversion_revenue                        AS linear_revenue,
+        DIV0(conversion_revenue, total_sessions_for_conversion)                         AS linear_revenue,
 
         -- First Touch: 100% to session 1
         CASE WHEN session_number = 1                                THEN conversion_revenue ELSE 0.0 END AS first_touch_revenue,
@@ -96,7 +96,7 @@ calculated_weights AS (
             WHEN total_sessions_for_conversion = 2 THEN 0.5 * conversion_revenue
             WHEN session_number = 1
               OR session_number = total_sessions_for_conversion     THEN 0.4 * conversion_revenue
-            ELSE DIV0(0.2, (total_sessions_for_conversion - 2))    * conversion_revenue
+            ELSE DIV0(0.2 * conversion_revenue, (total_sessions_for_conversion - 2))
         END AS ushaped_revenue,
 
         CASE WHEN TRUE THEN conversion_revenue ELSE 0.0 END AS full_credit_revenue
@@ -193,7 +193,7 @@ WHERE cnt = 0
 
 UNION ALL
 
--- Empirical: REFRESH_ACTION must be CHANGE (incremental), not REINITIALIZE (full refresh)
+-- Empirical: REFRESH_ACTION must be INCREMENTAL, not FULL or REINITIALIZE
 SELECT 'user3', 'FAIL: Snowflake fell back to full refresh (REINITIALIZE)'
 FROM (
     SELECT REFRESH_ACTION
@@ -202,7 +202,7 @@ FROM (
     ))
     ORDER BY REFRESH_END_TIME DESC LIMIT 1
 )
-WHERE REFRESH_ACTION != 'CHANGE'
+WHERE REFRESH_ACTION != 'INCREMENTAL'
 
 UNION ALL
 
