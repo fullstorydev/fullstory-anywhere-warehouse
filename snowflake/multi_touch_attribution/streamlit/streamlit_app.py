@@ -441,6 +441,9 @@ with tab_paths:
             fig_sankey = go.Figure(
                 go.Sankey(
                     arrangement="snap",
+                    # Plotly's default label halo is built for dark themes and
+                    # blurs the text on a white background.
+                    textfont={"color": "#1f2937", "size": 12, "shadow": "none"},
                     node={
                         "label": all_nodes,
                         "color": [node_color(n) for n in all_nodes],
