@@ -89,6 +89,10 @@ snowflake/
 │   └── int_marketing__conversions.sql  ← Dynamic Table
 ├── 03_marts/
 │   └── fct_marketing_attribution.sql  ← Dynamic Table (leaf node)
+├── streamlit/                         ← optional dashboard (make dashboard)
+│   ├── streamlit_app.py
+│   ├── environment.yml
+│   └── snowflake.yml
 
 ```
 
@@ -142,6 +146,31 @@ Run scripts in this order — each layer depends on the one above:
 # 4. Mart Dynamic Table  (Phase 3)
 03_marts/fct_marketing_attribution.sql
 ```
+
+---
+
+## Dashboard (optional)
+
+A Streamlit in Snowflake app over `fct_marketing_attribution`. Pick a date range and model in the sidebar, then explore four tabs:
+
+| Tab | What it shows |
+|---|---|
+| Overview | Conversions, attributed revenue, average path length, days to convert, daily revenue, revenue by source and medium |
+| Channels | Top campaigns, all five models side by side by medium, source x model table |
+| Paths | Most common conversion paths, path length and time-to-convert histograms, channel flow Sankey |
+| Conversions | Conversion log with Session Replay links (enter your Fullstory org ID in the sidebar) |
+
+![Dashboard KPIs](streamlit/images/dashboard_kpis.png)
+
+![Channel flow](streamlit/images/dashboard_channel_flow.png)
+
+Deploy it after Phase 3:
+
+```bash
+make dashboard
+```
+
+This creates `fs_marketing.marts.attribution_dashboard` on the warehouse runtime, using `SNOWFLAKE_WAREHOUSE` from `.env`. Open it in Snowsight under **Projects → Streamlit**.
 
 ---
 

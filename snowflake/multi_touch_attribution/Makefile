@@ -47,7 +47,7 @@ WH_VAR = -D WAREHOUSE=$(SNOWFLAKE_WAREHOUSE)
 .DEFAULT_GOAL := help
 
 .PHONY: help check-conn check-vars \
-        phase1 phase2 phase3 \
+        phase1 phase2 phase3 dashboard \
         teardown-mart teardown-intermediate teardown-staging teardown-setup teardown \
         refresh-intermediate refresh-mart refresh \
         status \
@@ -66,6 +66,7 @@ help:
 	@echo "    phase1                Setup schemas, config table, source views, staging views"
 	@echo "    phase2                Deploy intermediate Dynamic Tables"
 	@echo "    phase3                Deploy mart Dynamic Table (leaf node, refreshes hourly)"
+	@echo "    dashboard             Deploy the Streamlit attribution dashboard (optional)"
 	@echo ""
 	@echo "  Teardown (cascades — each target drops dependents first)"
 	@echo "    teardown-mart         Drop fct_marketing_attribution"
@@ -132,6 +133,13 @@ phase3: check-conn
 	@echo ">>> Phase 3: Creating mart Dynamic Table..."
 	$(SF) $(WH_VAR) -f 03_marts/fct_marketing_attribution.sql
 	@echo ">>> Phase 3 complete."
+
+# Optional: Streamlit dashboard over the mart (run after phase3)
+dashboard: check-conn
+	@[ -n "$(SNOWFLAKE_WAREHOUSE)" ] || (echo "ERROR: SNOWFLAKE_WAREHOUSE is not set." && exit 1)
+	@echo ">>> Deploying Streamlit dashboard..."
+	cd streamlit && WAREHOUSE=$(SNOWFLAKE_WAREHOUSE) snow streamlit deploy --replace -c $(SNOWSQL_CONN) $(if $(SNOWFLAKE_ROLE),--role $(SNOWFLAKE_ROLE),)
+	@echo ">>> Dashboard deployed: fs_marketing.marts.attribution_dashboard"
 
 # ── Teardown ──────────────────────────────────────────────────────────────────
 # Cascades: each target drops downstream dependents before itself.

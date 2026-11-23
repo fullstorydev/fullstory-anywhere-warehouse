@@ -1,0 +1,15 @@
+definition_version: 2
+entities:
+  attribution_dashboard:
+    type: streamlit
+    identifier:
+      name: attribution_dashboard
+      database: fs_marketing
+      schema: marts
+    title: Marketing Attribution
+    query_warehouse: <% ctx.env.WAREHOUSE %>
+    runtime_name: SYSTEM$WAREHOUSE_RUNTIME
+    main_file: streamlit_app.py
+    artifacts:
+      - streamlit_app.py
+      - environment.yml
